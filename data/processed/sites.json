@@ -1,0 +1,66 @@
+{
+  "warehouse": {
+    "prefix": "14940",
+    "city": "ibitinga",
+    "n_sellers": 49,
+    "lat": -21.75769,
+    "lng": -48.829768
+  },
+  "hubs": [
+    {
+      "city": "sao paulo",
+      "prefix": "04140",
+      "lat": -23.607165,
+      "lng": -46.630866,
+      "kg": 32718.747
+    },
+    {
+      "city": "campinas",
+      "prefix": "13087",
+      "lat": -22.854677,
+      "lng": -47.051972,
+      "kg": 3382.118
+    },
+    {
+      "city": "guarulhos",
+      "prefix": "07190",
+      "lat": -23.458648,
+      "lng": -46.497026,
+      "kg": 2702.31
+    },
+    {
+      "city": "santos",
+      "prefix": "11030",
+      "lat": -23.984798,
+      "lng": -46.300849,
+      "kg": 1951.942
+    },
+    {
+      "city": "sao bernardo do campo",
+      "prefix": "09820",
+      "lat": -23.740965,
+      "lng": -46.554997,
+      "kg": 1791.509
+    }
+  ],
+  "goods_value_per_kg": 54.301653174119046,
+  "filters": {
+    "state": "SP",
+    "order_status": "delivered",
+    "sp_box_lat": [
+      -25.4,
+      -19.7
+    ],
+    "sp_box_lng": [
+      -53.2,
+      -44.1
+    ],
+    "fold_start": "2017-08-07",
+    "fold_weeks": 52,
+    "orders_with_items": 40501,
+    "orders_dropped_missing_weight": 4,
+    "orders_dropped_no_coordinate": 14,
+    "prefixes_dropped_no_coordinate": 13,
+    "prefixes_kept": 5545
+  }
+}

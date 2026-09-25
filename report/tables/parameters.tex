@@ -1,0 +1,22 @@
+$Q^1$ & truck capacity (kg) & 7,480 & VW Delivery 11.180, payload plus body \\
+$c^1$ & truck cost per km (BRL) & 3.9826 & ANTT table, CCD, 2 axles \\
+$f^1$ & truck cost per trip (BRL) & 451.84 & ANTT table, CC \\
+$Q^2$ & van capacity (kg) & 650 & Fiat Fiorino, maker page \\
+$m$ & vans per hub & 4 & assumption (rule A2) \\
+$c^2$ & van cost per km (BRL) & 3.9826 & assumption: ANTT CCD reused \\
+ & goods value (BRL/kg) & 54.302 & Olist item prices \\
+ & Selic rate per year & 0.1375 & BCB series 432 \\
+$\eta^H = \eta^P$ & holding (BRL/kg/day) & 0.0205 & goods value $\times$ Selic / 365 \\
+ & point capacity (average days) & 2.0 & assumption (rule C1) \\
+ & point initial stock (days) & 1.0 & assumption (rule C2) \\
+ & hub capacity factor & 1.5 & assumption (rule C3) \\
+ & hub initial stock (days) & 1.0 & assumption (rule C4) \\
+ & pool radius around a hub (km) & 50 & assumption \\
+ & pool size (prefixes) & 300 & assumption \\
+ & weeks folded onto one week & 52 & assumption \\
+ & ALNS segment length & 200 & \citet{coelho2012transshipment} \\
+$r$ & ALNS reaction factor & 0.7 & \citet{coelho2012transshipment} \\
+ & scores best, better, accepted & 10, 5, 2 & \citet{coelho2012transshipment} \\
+$w$ & start worse share & 0.05 & \citet{ropke2006adaptive} \\
+ & final temperature ratio & 0.001 & assumption \\
+ & removal share, caps & 0.1, 2, 30 & assumption \\

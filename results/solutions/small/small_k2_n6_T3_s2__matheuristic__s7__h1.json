@@ -1,0 +1,29 @@
+{
+  "instance": "small_k2_n6_T3_s2",
+  "method": "matheuristic",
+  "seed": 7,
+  "holding_multiplier": 1.0,
+  "time_limit_s": 10.0,
+  "cost": {"truck": 5717.265420400001, "van": 1954.3335068000004, "holding": 1.967910058972603, "total": 7673.566837258974},
+  "stats": {"iterations": 9778, "rejected": 0, "accepted": 9737, "history": [[0.001796900003682822, 7673.566837258974]], "destroy_weights": {"random_removal": [2.001719377422778, 1538], "worst_removal": [2.0001142791452575, 1622], "related_removal": [2.000042982162994, 1659], "sequence_removal": [2.060063817878962, 1552], "hub_day_removal": [2.070504695756849, 1688], "truck_trip_removal": [2.049629730578947, 1719]}, "repair_weights": {"greedy_repair": [2.0472135392631845, 2464], "regret_repair": [2.000354049416415, 2404], "extra_visits_repair": [2.0168001106898723, 2350], "extra_trip_repair": [2.061401483136191, 2560]}, "lp_calls": 0, "lp_rescues": 0},
+  "truck_trips": [
+    [false, false, true],
+    [false, false, true]
+  ],
+  "hub_shipments": [
+    [0.0, 0.0, 1.7400000000000007],
+    [0.0, 0.0, 115.67600000000002]
+  ],
+  "deliveries": [
+    [0.0, 22.52, 76.033],
+    [0.0, 7.146999999999999, 11.304],
+    [0.0, 2.93, 2.938],
+    [0.0, 2.851, 0.0],
+    [0.0, 0.24099999999999988, 0.0],
+    [0.0, 1.7819999999999991, 39.475]
+  ],
+  "van_routes": [
+    [[], [[2, 3, 4]], [[2]]],
+    [[], [[1, 5, 0]], [[1, 5, 0]]]
+  ]
+}

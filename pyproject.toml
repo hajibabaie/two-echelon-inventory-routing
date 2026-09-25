@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "irp2e"
+dynamic = ["version"]
+description = "Two-echelon inventory routing on real Olist e-commerce data from Sao Paulo state."
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Mohammad Hajibabaie", email = "hajibabaie.mohammad@gmail.com" }]
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "matplotlib>=3.9",
+    "requests>=2.32",
+    "kagglehub>=0.3",
+]
+
+[project.optional-dependencies]
+gurobi = ["gurobipy>=13.0"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+irp2e-data = "irp2e.data.pipeline:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "irp2e.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "TID251"]
+
+[tool.ruff.lint.isort]
+known-local-folder = ["tiny_example"]  # tests/tiny_example.py, imported by the tests
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"math".msg = "Use numpy, never the math module."
+
+[tool.ruff.lint.per-file-ignores]
+"src/irp2e/data/download.py" = ["E501"]  # full SHA-256 hashes stay on one line each
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["gurobi: needs gurobipy and a Gurobi license (deselect with -m 'not gurobi')"]

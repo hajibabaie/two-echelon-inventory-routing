@@ -1,0 +1,10 @@
+# LaTeX build files; report.pdf is kept
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.synctex.gz

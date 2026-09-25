@@ -1,0 +1,85 @@
+# config/params.toml: every number the project uses, with its source.
+# Currency BRL, weight kg, distance km, time in days.
+
+[data]
+kaggle_dataset = "olistbr/brazilian-ecommerce"  # Olist dataset, Kaggle version 2, CC BY-NC-SA 4.0
+state = "SP"                                    # fixed by the project
+order_status = "delivered"                      # ASSUMPTION: only orders that really reached the customer
+fold_start = "2017-08-07"                       # ASSUMPTION: our choice, a Monday; the 52 weeks end on 2018-08-05
+                                                # and leave out the thin months of 2016 and early 2017
+fold_weeks = 52                                 # ASSUMPTION: our choice; one year of orders folded onto one week
+sp_box_lat = [-25.4, -19.7]                     # ASSUMPTION: own reading of the SP state outline
+sp_box_lng = [-53.2, -44.1]                     # ASSUMPTION: same
+pool_radius_km = 50.0                           # ASSUMPTION: last-mile radius around a hub
+pool_size = 300                                 # ASSUMPTION: points drawn from the 300 busiest prefixes, so 3 large instances differ
+osrm_url = "https://router.project-osrm.org"    # OSRM demo server
+osrm_block = 50                                 # measured by us: the server answered 100 coordinates and refused 101
+                                                # (code TooBig), so 50 sources + 50 destinations
+osrm_pause_s = 1.0                              # "One request per second max", routing.openstreetmap.de/about.html,
+                                                # linked from github.com/Project-OSRM/osrm-backend/wiki/Api-usage-policy
+osrm_timeout_s = 120.0                          # ASSUMPTION: our choice, far above the time of one request
+osrm_user_agent = "irp2e/0.1 (research code by github.com/hajibabaie)"   # usage policy asks for an app name
+
+[truck]                                         # echelon 1: hired truck, VW Delivery 11.180 4x2 (two axles), one per trip
+capacity_kg = 7480.0      # VW spec sheet "Capacidade max. de carga util + carroceria" 7,480 kg. ASSUMPTION: body weight
+                          # not subtracted, since the sheet does not give it
+cost_per_km = 3.9826      # ANTT Res. 6.084/2026, Anexo II, Tabela A, carga geral, 2 eixos, CCD (R$/km); price rule
+                          # "distance x CCD + CC" from ANTT Res. 5.867/2020, art. 5 par. 1. ASSUMPTION: CCD charged on
+                          # the whole round trip; ANTT prices an empty return at 92 % of CCD only in the cases of art. 5 par. 6
+cost_per_trip = 451.84    # same table, CC (carga e descarga, R$ per trip)
+
+[van]                                           # echelon 2: Fiat Fiorino (small urban delivery van)
+capacity_kg = 650.0       # Fiat Brasil page https://fiorino.fiat.com.br/, section "Capacidade de carga": "Com
+                          # capacidade cubica de 3,3m3 e de 650kg de carga"; volume 3.3 m3 ignored
+count_per_hub = 4         # ASSUMPTION: four vans per hub; rule A2 needs 4 on large_k5_n200_T7_s1 (hub 1:
+                          # sum U 1,711 kg, max U 121 kg, 1711 / (650 - 121) = 3.2)
+cost_per_km = 3.9826      # ASSUMPTION: no official van cost table exists; reuse the ANTT 2-axle CCD. An upper bound
+                          # for a 650 kg van
+
+[stock]
+goods_value_per_kg = 54.302   # Olist order_items: sum(price) / sum(weight), SP delivered orders in the fold window
+selic_annual = 0.1375         # Banco Central do Brasil, SGS series 432, Selic target on 2026-09-24
+                              # holding cost = goods_value_per_kg * selic_annual / 365, computed by config.py
+                              # ASSUMPTION: capital cost only (no rent, no handling)
+                              # ASSUMPTION: the same value at hubs and points, since the goods are the same
+point_capacity_days = 2.0     # ASSUMPTION: a pickup point stores the larger of its busiest day and two
+                              # average days (rule C1)
+point_initial_days = 1.0      # ASSUMPTION: the week starts with one average day in stock (rule C2)
+hub_capacity_factor = 1.5     # ASSUMPTION: a hub stores 1.5 times what all its points store together (rule C3)
+hub_initial_days = 1.0        # ASSUMPTION: one average day of its region (rule C4)
+
+[instances]                   # ASSUMPTION: our choice of sizes. Small: Gurobi proves optimality within
+                              # gurobi.time_limit_s. Large: about 200 points, 5 hubs, T = 7, as the task fixes
+small  = {hubs = [1, 2], points = [6, 8, 10], days = 3, seeds = [1, 2]}
+medium = {hubs = [3],    points = [40, 80],   days = 7, seeds = [1, 2]}
+large  = {hubs = [5],    points = [200],      days = 7, seeds = [1, 2, 3]}
+
+[alns]
+segment_length = 200          # Coelho, Cordeau, Laporte 2012 (transshipment), section 4.3
+reaction = 0.7                # same source
+score_best = 10               # same source: new global best
+score_better = 5              # same source: better than current
+score_accepted = 2            # same source: worse but accepted
+start_worse = 0.05            # Ropke and Pisinger 2006, sections 3.5 and 4.3.2: w = 0.05
+start_accept_probability = 0.5  # same source
+final_temperature_ratio = 0.001 # ASSUMPTION: our choice; temperature falls to 0.1 % of the start over the run
+removal_share = 0.1           # ASSUMPTION: our choice, untuned; rho up to 10 % of the visits
+removal_cap_min = 2           # ASSUMPTION: our choice; the cap on rho is never below 2
+removal_cap_max = 30          # ASSUMPTION: our choice; the cap on rho is never above 30
+
+[gurobi]
+mip_gap = 0.0                 # prove optimality
+time_limit_s = 600            # ASSUMPTION: our choice; small set only
+threads = 1                   # 4 processes run in parallel on 8 logical CPUs
+# Two Gurobi settings stay in the code, because correctness depends on them, not tuning:
+# IntegralityFocus = 1 in model.py (a binary near 0 cannot carry a delivery) and
+# DualReductions = 0 in matheuristic.py (an infeasible LP reports INFEASIBLE).
+
+[experiments]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]      # ASSUMPTION: our choice, 10 runs per seeded method
+time_limit_s = {small = 10, medium = 60, large = 120}   # ASSUMPTION: our choice, seconds per run
+workers = 4                                 # 4 processes on 8 logical CPUs, one Gurobi thread each
+holding_multipliers = [1, 10, 100, 1000, 10000]   # ASSUMPTION: our choice, powers of 10
+sensitivity_instance = "medium_k3_n80_T7_s1"      # ASSUMPTION: our choice
+map_instance = "large_k5_n200_T7_s1"        # ASSUMPTION: our choice, the instance on the network map
+alpha = 0.05                                # the usual 5 % significance level

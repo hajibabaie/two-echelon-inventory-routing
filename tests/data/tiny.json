@@ -1,0 +1,36 @@
+{
+  "name": "tiny",
+  "set": "tiny",
+  "seed": null,
+  "n_hubs": 1,
+  "n_points": 3,
+  "n_days": 2,
+  "labels": ["W", "H", "A", "B", "C"],
+  "cities": ["W", "H", "A", "B", "C"],
+  "coordinates": [
+    [100.0, 0.0],
+    [0.0, 0.0],
+    [4.0, 0.0],
+    [4.0, 3.0],
+    [0.0, 5.0]
+  ],
+  "hub_of": [0, 0, 0],
+  "demand": [
+    [10.0, 10.0],
+    [20.0, 0.0],
+    [5.0, 15.0]
+  ],
+  "point_capacity": [20.0, 20.0, 20.0],
+  "point_initial": [0.0, 0.0, 5.0],
+  "hub_capacity": [60.0],
+  "hub_initial": [0.0],
+  "distance_km": [
+    [0.0, 100.0, 104.0, 106.0, 105.0],
+    [100.0, 0.0, 4.0, 6.0, 5.0],
+    [104.0, 4.0, 0.0, 3.0, 6.0],
+    [106.0, 6.0, 3.0, 0.0, 4.0],
+    [105.0, 5.0, 6.0, 4.0, 0.0]
+  ],
+  "params": {"truck_capacity": 100.0, "truck_cost_per_km": 1.0, "truck_cost_per_trip": 50.0, "van_capacity": 30.0, "n_vans": 2, "van_cost_per_km": 1.0, "hub_holding": 1.0, "point_holding": 1.0},
+  "source": {"note": "hand-made worked example; coordinates are drawing positions, not geography"}
+}
